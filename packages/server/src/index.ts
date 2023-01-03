@@ -123,3 +123,9 @@ process.on("SIGINT", () => {
 	server.close();
 	process.exit();
 });
+
+process.on("SIGTERM", () => {
+	log("SIGTERM");
+	server.close();
+	process.exit();
+});
