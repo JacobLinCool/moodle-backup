@@ -2,6 +2,7 @@ import path from "node:path";
 import EventEmitter from "node:events";
 import { chromium, Download, Page } from "playwright-core";
 import { create } from "./fs";
+import { find_chrome } from "./chrome";
 
 export class Exporter extends EventEmitter {
 	protected moodle_root: string;
@@ -18,7 +19,10 @@ export class Exporter extends EventEmitter {
 	}
 
 	async run() {
-		const browser = await chromium.launch({ headless: process.env.DEBUG !== "exporter" });
+		const browser = await chromium.launch({
+			executablePath: find_chrome() || undefined,
+			headless: process.env.DEBUG !== "exporter",
+		});
 		const context = await browser.newContext();
 		const page = await context.newPage();
 
