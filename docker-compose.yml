@@ -4,6 +4,7 @@ services:
     server:
         build:
             context: .
+            target: server
         image: jacoblincool/moodle-backup-server
         environment:
             - DEBUG=server
