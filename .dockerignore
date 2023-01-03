@@ -132,3 +132,5 @@ dist/
 .svelte-kit/
 data/
 .dockerignore
+.git/
+**/.env
