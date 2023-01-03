@@ -1,4 +1,4 @@
-import { structure } from "core";
+import { structure } from "moodle-backup-core";
 import { mount, File, serializer } from "controlled-fs";
 import { z } from "zod";
 import { DATA_DIR } from "./config";
