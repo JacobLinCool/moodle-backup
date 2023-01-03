@@ -1,0 +1,13 @@
+version: "3.9"
+
+services:
+    server:
+        build:
+            context: .
+        image: jacoblincool/moodle-backup-server
+        environment:
+            - DEBUG=server
+        volumes:
+            - ./data:/app/data
+        ports:
+            - 3000:3000

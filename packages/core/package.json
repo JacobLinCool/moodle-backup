@@ -1,0 +1,26 @@
+{
+	"private": true,
+	"name": "core",
+	"version": "1.0.0",
+	"description": "",
+	"keywords": [],
+	"author": "JacobLinCool <jacoblincool@gmail.com> (https://github.com/JacobLinCool)",
+	"license": "MIT",
+	"main": "lib/index.js",
+	"types": "lib/index.d.ts",
+	"scripts": {
+		"build": "tsup"
+	},
+	"dependencies": {
+		"controlled-fs": "^2.1.0",
+		"debug": "^4.3.4",
+		"dotenv": "^16.0.3",
+		"playwright-core": "^1.29.1",
+		"zod": "^3.20.2"
+	},
+	"devDependencies": {
+		"@types/debug": "^4.1.7",
+		"@types/node": "^18.11.18",
+		"tsup": "^6.5.0"
+	}
+}

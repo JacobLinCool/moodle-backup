@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Moodle Backup</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<style>
+			* {
+				position: relative;
+				color: lightskyblue;
+			}
+
+			html,
+			body {
+				margin: 0;
+				padding: 0;
+				height: 100%;
+				width: 100%;
+				overflow: hidden;
+				display: flex;
+				font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+			}
+
+			main {
+				max-width: 720px;
+				width: 90%;
+				margin: auto;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+			}
+
+			main > div {
+				width: 100%;
+				margin: 0.5rem 1rem;
+			}
+
+			input {
+				width: calc(100% - 1rem);
+				padding: 0.5rem;
+				margin: 0 0 0.5rem 0;
+				border: none;
+				border-bottom: 2px lightskyblue solid;
+				color: dodgerblue;
+				transition: all 0.3s ease;
+			}
+
+			input:focus {
+				outline: none;
+				border-bottom: 2px dodgerblue solid;
+			}
+
+			input::placeholder {
+				color: lightskyblue;
+			}
+
+			button {
+				width: 100%;
+				padding: 0.5rem;
+				margin: 0.5rem 0;
+				border: 1px lightskyblue solid;
+				border-radius: 0.5rem;
+				background: white;
+				color: lightskyblue;
+				cursor: pointer;
+				transition: all 0.3s ease;
+			}
+
+			button:hover {
+				border: 1px dodgerblue solid;
+				background: dodgerblue;
+				color: white;
+			}
+
+			#message {
+				border: 1px lightskyblue solid;
+				border-radius: 0.5rem;
+				padding: 0.5rem;
+				overflow-y: auto;
+				max-height: 200px;
+			}
+
+			#message > p {
+				margin: 0;
+				white-space: pre-line;
+			}
+		</style>
+	</head>
+	<body>
+		<main>
+			<div>
+				<h1>Moodle Backup</h1>
+				<p>Backup Your Personal Data from NTNU Moodle.</p>
+			</div>
+			<div>
+				<div>
+					<input id="username" type="text" placeholder="Username" />
+				</div>
+				<div>
+					<input id="password" type="password" placeholder="Password" />
+				</div>
+				<div>
+					<button id="backup">Backup</button>
+				</div>
+			</div>
+			<div>
+				<div id="message" style="display: none"></div>
+			</div>
+			<div>
+				<button id="download" style="display: none">Download</button>
+				<p>
+					Your data will only be retained for 30 minutes. <br />
+					If you encounter any problems or have any questions, please contact me at
+					<a href="https://github.com/JacobLinCool/moodle-backup/issues" target="_blank"
+						>here</a
+					>.
+				</p>
+			</div>
+		</main>
+		<script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+		<script>
+			const elm = {
+				username: document.querySelector("#username"),
+				password: document.querySelector("#password"),
+				backup: document.querySelector("#backup"),
+				message: document.querySelector("#message"),
+				download: document.querySelector("#download"),
+			};
+
+			const socket = io();
+
+			backup.addEventListener("click", () => {
+				if (elm.username.value === "" || elm.password.value === "") {
+					alert("Please fill in your username and password.");
+					return;
+				}
+
+				elm.backup.disabled = true;
+				elm.backup.innerHTML = "Processing ...";
+				elm.message.innerHTML = "";
+				elm.message.style.display = "block";
+				elm.download.style.display = "none";
+				socket.emit("export", {
+					username: elm.username.value,
+					password: elm.password.value,
+				});
+			});
+
+			socket.on("message", ({ id, state, message }) => {
+				const msg = document.createElement("p");
+				msg.innerHTML = message;
+				elm.message.appendChild(msg);
+				setTimeout(() => {
+					elm.message.scrollTop = elm.message.scrollHeight;
+				}, 10);
+
+				if (state === "done") {
+					elm.backup.disabled = false;
+					elm.backup.innerHTML = "Backup";
+					elm.download.style.display = "block";
+					elm.download.onclick = () => {
+						window.location.href = `/bundled/${id}`;
+						elm.download.innerHTML = "Download Started!";
+					};
+				}
+			});
+		</script>
+	</body>
+</html>

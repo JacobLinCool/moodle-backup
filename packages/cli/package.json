@@ -1,0 +1,24 @@
+{
+	"private": true,
+	"name": "cli",
+	"version": "1.0.0",
+	"description": "",
+	"keywords": [],
+	"author": "JacobLinCool <jacoblincool@gmail.com> (https://github.com/JacobLinCool)",
+	"license": "MIT",
+	"bin": "lib/index.js",
+	"scripts": {
+		"start": "tsx src/index.ts",
+		"build": "tsup"
+	},
+	"dependencies": {
+		"commander": "^9.4.1",
+		"core": "workspace:*",
+		"dotenv": "^16.0.3",
+		"ora": "^5.4.1"
+	},
+	"devDependencies": {
+		"@types/node": "^18.11.18",
+		"tsup": "^6.5.0"
+	}
+}
