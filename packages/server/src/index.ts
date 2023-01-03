@@ -5,11 +5,15 @@ import { Exporter } from "core";
 import express from "express";
 import { Server, Socket } from "socket.io";
 import debug from "debug";
-import { PORT, MOODLE_URL, FILE_RETENTION } from "./config";
+import { PORT, MOODLE_URL, FILE_RETENTION, MAX_CONCURRENCY } from "./config";
 import { fs } from "./fs";
 import { zip } from "./zip";
+import { Lock } from "./lock";
 
 const log = debug("server");
+
+const download_lock = new Lock(MAX_CONCURRENCY);
+const export_lock = new Lock(MAX_CONCURRENCY);
 
 const frontend = readFileSync(path.join(__dirname, "..", "frontend", "index.html"), "utf8");
 
@@ -23,7 +27,10 @@ const app = express()
 			res.status(404).json({ message: "Not found" });
 			return;
 		}
-		res.download(fs[id]["bundled.zip"].$path);
+		await download_lock.lock();
+		res.download(fs[id]["bundled.zip"].$path, () => {
+			download_lock.unlock();
+		});
 		const record = fs[id].record.$data;
 		fs[id].record.$data = {
 			username: record?.username || "",
@@ -58,6 +65,7 @@ io.on("connection", (socket) => {
 			return;
 		}
 
+		await export_lock.lock();
 		const record = fs[id].record.$data;
 		fs[id].record.$data = {
 			username: data.username,
@@ -101,6 +109,7 @@ io.on("connection", (socket) => {
 		exporters.delete(id);
 		log(id, "[done]");
 		fs[id].temp.$remove();
+		export_lock.unlock();
 		setTimeout(() => fs[id]["bundled.zip"].$remove(), FILE_RETENTION);
 	});
 });
