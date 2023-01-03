@@ -1,13 +1,18 @@
 {
-	"private": true,
-	"name": "core",
+	"name": "moodle-backup-core",
 	"version": "1.0.0",
-	"description": "",
-	"keywords": [],
+	"description": "Backup Your Personal Data from Moodle.",
+	"keywords": [
+		"Moodle",
+		"Backup"
+	],
 	"author": "JacobLinCool <jacoblincool@gmail.com> (https://github.com/JacobLinCool)",
 	"license": "MIT",
 	"main": "lib/index.js",
 	"types": "lib/index.d.ts",
+	"files": [
+		"lib"
+	],
 	"scripts": {
 		"build": "tsup"
 	},
@@ -22,5 +27,13 @@
 		"@types/debug": "^4.1.7",
 		"@types/node": "^18.11.18",
 		"tsup": "^6.5.0"
-	}
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/JacobLinCool/moodle-backup.git"
+	},
+	"bugs": {
+		"url": "https://github.com/JacobLinCool/moodle-backup/issues"
+	},
+	"homepage": "https://github.com/JacobLinCool/moodle-backup#readme"
 }

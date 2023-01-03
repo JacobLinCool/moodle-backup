@@ -1,24 +1,38 @@
 {
-	"private": true,
-	"name": "cli",
+	"name": "moodle-backup",
 	"version": "1.0.0",
-	"description": "",
-	"keywords": [],
+	"description": "Backup Your Personal Data from Moodle.",
+	"keywords": [
+		"Moodle",
+		"Backup",
+		"CLI"
+	],
 	"author": "JacobLinCool <jacoblincool@gmail.com> (https://github.com/JacobLinCool)",
 	"license": "MIT",
 	"bin": "lib/index.js",
+	"files": [
+		"lib"
+	],
 	"scripts": {
 		"start": "tsx src/index.ts",
 		"build": "tsup"
 	},
 	"dependencies": {
 		"commander": "^9.4.1",
-		"core": "workspace:*",
+		"moodle-backup-core": "workspace:*",
 		"dotenv": "^16.0.3",
 		"ora": "^5.4.1"
 	},
 	"devDependencies": {
 		"@types/node": "^18.11.18",
 		"tsup": "^6.5.0"
-	}
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/JacobLinCool/moodle-backup.git"
+	},
+	"bugs": {
+		"url": "https://github.com/JacobLinCool/moodle-backup/issues"
+	},
+	"homepage": "https://github.com/JacobLinCool/moodle-backup#readme"
 }
