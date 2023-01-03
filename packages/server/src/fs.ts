@@ -20,5 +20,4 @@ export const fs = mount(
 			),
 		}),
 	),
-	{ cache: true },
 );
