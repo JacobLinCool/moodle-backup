@@ -131,3 +131,4 @@ lib/
 dist/
 .svelte-kit/
 data/
+moodle/

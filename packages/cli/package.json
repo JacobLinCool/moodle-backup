@@ -14,7 +14,8 @@
 		"lib"
 	],
 	"scripts": {
-		"start": "tsx src/index.ts",
+		"start": "node lib/index.js",
+		"dev": "tsx src/index.ts",
 		"build": "tsup"
 	},
 	"dependencies": {

@@ -23,7 +23,9 @@ export class Exporter extends EventEmitter {
 			executablePath: find_chrome() || undefined,
 			headless: process.env.DEBUG !== "exporter",
 		});
-		const context = await browser.newContext();
+		const context = await browser.newContext({
+			viewport: { height: 1920, width: 1080 },
+		});
 		const page = await context.newPage();
 
 		try {
@@ -42,10 +44,10 @@ export class Exporter extends EventEmitter {
 
 				for (const [homework, id] of homeworks) {
 					this.emit("info", `Downloading files for ${course}/${homework} ...`);
-					const files = await this.download(page, id);
+					const { snapshot, files } = await this.download(page, id);
 
 					for (const [filename, download] of files) {
-						const file = this.fs[clear(course)][clear(homework)][clear(filename)];
+						const file = this.fs[course].homeworks[homework].files[filename];
 						file.$data = Buffer.from([]);
 						downloads.push(
 							download.saveAs(file.$path),
@@ -61,6 +63,8 @@ export class Exporter extends EventEmitter {
 							}),
 						);
 					}
+
+					this.fs[course].homeworks[homework]["snapshot.jpg"].$data = snapshot;
 				}
 			}
 
@@ -99,12 +103,12 @@ export class Exporter extends EventEmitter {
 	}
 
 	protected async courses(page: Page): Promise<[string, string][]> {
-		const courses: [string, string][] = [];
-
 		await page.goto(`${this.moodle_root}/my/`);
 		await page.waitForLoadState("networkidle");
 		await page.getByRole("button", { name: "Display drop-down menu" }).click();
 		await page.getByRole("link", { name: "Switch to list view" }).click();
+
+		const courses: [string, string][] = [];
 
 		const items = page
 			.getByRole("complementary", { name: "Course overview" })
@@ -126,7 +130,7 @@ export class Exporter extends EventEmitter {
 				(await item.getByRole("link", { name: /(.*)/ }).first().getAttribute("href")) || ""
 			).match(/id=(\d+)/)?.[1];
 			if (name && id) {
-				courses.push([name, id]);
+				courses.push([clear(name), id]);
 			}
 		}
 
@@ -134,35 +138,42 @@ export class Exporter extends EventEmitter {
 	}
 
 	protected async homeworks(page: Page, course_id: string): Promise<[string, string][]> {
+		await page.goto(`${this.moodle_root}/grade/report/user/index.php?id=${course_id}`);
+
 		const homeworks: [string, string][] = [];
 
-		await page.goto(`${this.moodle_root}/grade/report/user/index.php?id=${course_id}`);
 		const items = page.getByRole("cell").getByRole("link").all();
 		for (const item of await items) {
-			const name = ((await item.textContent()) || "").replace(/\s+/g, "_").trim();
+			const name = ((await item.textContent()) || "").replace(/\s\s+/g, " ").trim();
 			const id = ((await item.getAttribute("href")) || "").match(/id=(\d+)/)?.[1];
 			if (name && id) {
-				homeworks.push([name, id]);
+				homeworks.push([clear(name), id]);
 			}
 		}
 
 		return homeworks;
 	}
 
-	protected async download(page: Page, report_id: string): Promise<[string, Download][]> {
-		const files: [string, Download][] = [];
+	protected async download(
+		page: Page,
+		report_id: string,
+	): Promise<{ snapshot: Buffer; files: [string, Download][] }> {
 		await page.goto(`${this.moodle_root}/mod/assign/view.php?id=${report_id}`);
+
+		const files: [string, Download][] = [];
+		const snapshot = await page.getByRole("main").screenshot({ type: "jpeg" });
+
 		const items = page.getByRole("cell").getByRole("cell").locator("a[target=_blank]").all();
 		for (const item of await items) {
-			const name = ((await item.textContent()) || "").replace(/\s+/g, "_").trim();
+			const name = ((await item.textContent()) || "").replace(/\s\s+/g, " ").trim();
 
 			const downloaded = page.waitForEvent("download");
 			await item.click();
 			const download = await downloaded;
-			files.push([name || download.suggestedFilename(), download]);
+			files.push([clear(name || download.suggestedFilename()), download]);
 		}
 
-		return files;
+		return { snapshot, files };
 	}
 
 	on(event: "info", listener: (message: string) => void): this;
