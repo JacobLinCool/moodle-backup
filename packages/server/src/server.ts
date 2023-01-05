@@ -78,15 +78,22 @@ io.on("connection", (socket) => {
 		exporters.set(id, [exporter, "waiting", [socket]]);
 		broadcast(id, "message", { id, state: "waiting", message: "Waiting ..." });
 
+		let progress = 0;
+		exporter.on("progress", (p) => (progress = p * 100));
 		exporter.on("info", (message) => {
-			message = message.replace(fs[id].temp.$path, "");
+			message = progress + "% " + message.replace(fs[id].temp.$path, "");
 			broadcast(id, "message", { id, state: "running", message });
 			log(id, "[info]", message);
 		});
 		exporter.on("success", (message) => {
-			message = message.replace(fs[id].temp.$path, "");
+			message = progress + "% " + message.replace(fs[id].temp.$path, "");
 			broadcast(id, "message", { id, state: "running", message });
 			log(id, "[success]", message);
+		});
+		exporter.on("warn", (message) => {
+			message = progress + "% " + message.replace(fs[id].temp.$path, "");
+			broadcast(id, "message", { id, state: "running", message });
+			log(id, "[warn]", message);
 		});
 		exporter.on("error", (error) => {
 			broadcast(id, "message", {
