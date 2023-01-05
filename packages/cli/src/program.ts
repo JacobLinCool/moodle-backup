@@ -30,9 +30,12 @@ program
 		const exporter = new Exporter(opt.moodle, username, password, opt.dir);
 
 		const spinner = ora();
-		exporter.on("info", (msg) => spinner.start(msg));
+		let progress = 0;
+		exporter.on("info", (msg) => spinner.start(`${progress * 100}% ${msg}`));
 		exporter.on("success", (msg) => spinner.succeed(msg).start());
 		exporter.on("error", (err) => spinner.fail(err.message));
+		exporter.on("warn", (msg) => spinner.warn(msg).start());
+		exporter.on("progress", (p) => (progress = p));
 
 		await exporter.run();
 		spinner.succeed("Done!");
