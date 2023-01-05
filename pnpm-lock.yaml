@@ -44,21 +44,25 @@ importers:
         specifiers:
             "@types/debug": ^4.1.7
             "@types/node": ^18.11.18
+            "@types/turndown": ^5.0.1
             controlled-fs: ^2.1.0
             debug: ^4.3.4
             dotenv: ^16.0.3
             playwright-core: ^1.29.1
             tsup: ^6.5.0
+            turndown: ^7.1.1
             zod: ^3.20.2
         dependencies:
             controlled-fs: 2.1.0
             debug: 4.3.4
             dotenv: 16.0.3
             playwright-core: 1.29.1
+            turndown: 7.1.1
             zod: 3.20.2
         devDependencies:
             "@types/debug": 4.1.7
             "@types/node": 18.11.18
+            "@types/turndown": 5.0.1
             tsup: 6.5.0
 
     packages/server:
@@ -1232,6 +1236,13 @@ packages:
             }
         dev: true
 
+    /@types/turndown/5.0.1:
+        resolution:
+            {
+                integrity: sha512-N8Ad4e3oJxh9n9BiZx9cbe/0M3kqDpOTm2wzj13wdDUxDPjfjloWIJaquZzWE1cYTAHpjOH3rcTnXQdpEfS/SQ==,
+            }
+        dev: true
+
     /@types/yargs-parser/21.0.0:
         resolution:
             {
@@ -2154,6 +2165,13 @@ packages:
         dependencies:
             path-type: 4.0.0
         dev: true
+
+    /domino/2.1.6:
+        resolution:
+            {
+                integrity: sha512-3VdM/SXBZX2omc9JF9nOPCtDaYQ67BGp5CoLpIQlO2KCAPETs8TcDHacF26jXadGbvUteZzRTeos2fhID5+ucQ==,
+            }
+        dev: false
 
     /dotenv/16.0.3:
         resolution:
@@ -5370,6 +5388,15 @@ packages:
         optionalDependencies:
             fsevents: 2.3.2
         dev: true
+
+    /turndown/7.1.1:
+        resolution:
+            {
+                integrity: sha512-BEkXaWH7Wh7e9bd2QumhfAXk5g34+6QUmmWx+0q6ThaVOLuLUqsnkq35HQ5SBHSaxjSfSM7US5o4lhJNH7B9MA==,
+            }
+        dependencies:
+            domino: 2.1.6
+        dev: false
 
     /type-detect/4.0.8:
         resolution:
