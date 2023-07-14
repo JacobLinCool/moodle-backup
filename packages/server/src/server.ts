@@ -108,6 +108,7 @@ io.on("connection", (socket) => {
 
 		await exporter.run();
 		if (failed) {
+			export_lock.unlock();
 			return;
 		}
 		broadcast(id, "message", { id, state: "running", message: "Compressing ..." });
