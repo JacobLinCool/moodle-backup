@@ -374,12 +374,14 @@ export class Exporter extends EventEmitter {
 				continue;
 			}
 
-			await page.goto(item.href);
+			try {
+				await page.goto(item.href);
 
-			const content = td.turndown(
-				await page.getByRole("main").locator("article").first().innerHTML(),
-			);
-			discussions.push({ name: item.name, content });
+				const content = td.turndown(
+					await page.getByRole("main").locator("article").first().innerHTML(),
+				);
+				discussions.push({ name: item.name, content });
+			} catch {}
 		}
 
 		return { discussions };
