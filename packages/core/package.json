@@ -17,18 +17,17 @@
 		"build": "tsup"
 	},
 	"dependencies": {
-		"controlled-fs": "^2.1.0",
+		"controlled-fs": "^2.3.1",
 		"debug": "^4.3.4",
-		"dotenv": "^16.0.3",
-		"playwright-core": "^1.29.1",
-		"turndown": "^7.1.1",
-		"zod": "^3.20.2"
+		"dotenv": "^16.4.1",
+		"playwright-core": "^1.41.1",
+		"turndown": "^7.1.2",
+		"zod": "^3.22.4"
 	},
 	"devDependencies": {
-		"@types/debug": "^4.1.7",
-		"@types/node": "^18.11.18",
-		"@types/turndown": "^5.0.1",
-		"tsup": "^6.5.0"
+		"@types/debug": "^4.1.12",
+		"@types/turndown": "^5.0.4",
+		"tsup": "^8.0.1"
 	},
 	"repository": {
 		"type": "git",

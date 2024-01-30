@@ -8,8 +8,8 @@
 		"dbaeumer.vscode-eslint",
 		"esbenp.prettier-vscode",
 		"GitHub.copilot",
-		"GitHub.copilot-labs"
+		"GitHub.copilot-labs",
 	],
 	"onCreateCommand": "pnpm config set -g store-dir /workspace/node_modules/.pnpm-store",
-	"postStartCommand": "pnpm i"
+	"postStartCommand": "pnpm i",
 }

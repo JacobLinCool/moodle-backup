@@ -6,7 +6,8 @@ COPY . .
 RUN npm pkg delete scripts.prepare
 RUN pnpm i && pnpm rebuild && pnpm -r build && rm -rf node_modules && pnpm i --prod
 
-FROM jacoblincool/playwright:chromium-light as server
+# chromium-light, playwright 1.41.1
+FROM jacoblincool/playwright@sha256:d233e1525ae4de01638d660f162955bd02d7a7a1acf5b01d655fe3cd1b0084cc as server
 
 COPY --from=builder /app /app
 WORKDIR /app

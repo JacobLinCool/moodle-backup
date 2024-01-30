@@ -19,14 +19,13 @@
 		"build": "tsup"
 	},
 	"dependencies": {
-		"commander": "^9.4.1",
+		"commander": "^11.1.0",
+		"dotenv": "^16.4.1",
 		"moodle-backup-core": "workspace:*",
-		"dotenv": "^16.0.3",
 		"ora": "^5.4.1"
 	},
 	"devDependencies": {
-		"@types/node": "^18.11.18",
-		"tsup": "^6.5.0"
+		"tsup": "^8.0.1"
 	},
 	"repository": {
 		"type": "git",

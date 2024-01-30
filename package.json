@@ -3,24 +3,25 @@
 	"author": "JacobLinCool <jacoblincool@gmail.com> (https://github.com/JacobLinCool)",
 	"license": "MIT",
 	"scripts": {
-		"prepare": "husky install",
+		"prepare": "husky",
 		"format": "prettier --write . --ignore-path .gitignore",
 		"test": "jest --coverage"
 	},
 	"devDependencies": {
-		"@types/jest": "^29.2.5",
-		"@types/node": "^18.11.18",
-		"husky": "^8.0.2",
-		"jest": "^29.3.1",
-		"lint-staged": "^13.1.0",
-		"prettier": "^2.8.1",
-		"ts-jest": "^29.0.3",
-		"tsx": "^3.12.1",
-		"typescript": "^4.9.4"
+		"@types/jest": "^29.5.11",
+		"@types/node": "^20.11.10",
+		"husky": "^9.0.7",
+		"jest": "^29.7.0",
+		"lint-staged": "^15.2.0",
+		"prettier": "^3.2.4",
+		"ts-jest": "^29.1.2",
+		"tsx": "^4.7.0",
+		"typescript": "^5.3.3"
 	},
 	"lint-staged": {
 		"*.{ts,js,json,yaml,yml}": [
 			"prettier --write"
 		]
-	}
+	},
+	"packageManager": "pnpm@8.15.1"
 }

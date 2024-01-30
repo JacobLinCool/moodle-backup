@@ -362,12 +362,12 @@ export class Exporter extends EventEmitter {
 		const discussions: { name: string; content: string }[] = [];
 
 		const items = await Promise.all(
-			(
-				await page.getByRole("row").locator(".topic").getByRole("link").all()
-			).map(async (item) => ({
-				name: clear((await item.textContent()) || ""),
-				href: await item.getAttribute("href"),
-			})),
+			(await page.getByRole("row").locator(".topic").getByRole("link").all()).map(
+				async (item) => ({
+					name: clear((await item.textContent()) || ""),
+					href: await item.getAttribute("href"),
+				}),
+			),
 		);
 		for (const item of items) {
 			if (!item.href) {

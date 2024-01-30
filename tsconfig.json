@@ -13,6 +13,6 @@
 		"skipLibCheck": true,
 		"noImplicitAny": true,
 		"noImplicitThis": true,
-		"noImplicitReturns": true
-	}
+		"noImplicitReturns": true,
+	},
 }
