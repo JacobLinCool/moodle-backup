@@ -5,7 +5,8 @@
 	"scripts": {
 		"prepare": "husky",
 		"format": "prettier --write . --ignore-path .gitignore",
-		"test": "jest --coverage"
+		"test": "jest --coverage",
+		"build:image": "docker buildx bake --push --set '*.platform=linux/arm64,linux/amd64'"
 	},
 	"devDependencies": {
 		"@types/jest": "^29.5.11",
